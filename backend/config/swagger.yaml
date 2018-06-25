@@ -1,0 +1,219 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World Appa
+# during dev, should point to your local machine
+host: 127.0.0.1:5000
+# basePath prefixes all resource paths 
+basePath: /api/v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+securityDefinitions:
+  UserSecurity:
+    type: apiKey
+    in: header
+    name: x-access-token
+paths:
+  /users/:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user
+    post:
+      description: Sign up
+      # used as the method name of the controller
+      operationId: signUp
+      parameters:
+        - name: user 
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/UserSignUp'
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserSignUp"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /auth:
+    x-swagger-router-controller: user
+    post:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: signIn
+      parameters:
+        - name: user 
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/UserSignIn'
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserSignInSuccess"
+        "403":
+          description: Error
+          schema: 
+            $ref: "#/definitions/UserSignInError"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /instagram/profile:
+    get:
+      description: Get inbox messages
+      responses:
+        "200":
+          description: "List of dialogs"
+  /instagram/inbox:
+    get:
+      description: Get inbox messages
+      responses:
+        "200":
+          description: "List of dialogs"
+  /instagram/inbox/{threadId}:
+    get:
+      description: Get specific dialog
+      parameters:
+        - name: threadId
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: List of messages
+    post:
+      description: Send message to thread
+      parameters:
+        - name: threadId
+          in: path
+          required: true
+          type: string
+        - name: message 
+          in: body
+          description: task object
+          required: true
+          schema:
+            required:
+            - text
+            properties:
+              text:
+                type: string
+      responses:
+        "200":
+          description: Success
+  /instagram/inbox/user/{userId}/image:
+    post:
+      description: Send message to thread
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: image
+          in: formData
+          type: file
+          description: The file to upload.
+
+      responses:
+        "200":
+          description: Success
+  /instagram/inbox/user/{userId}:
+    post:
+      description: Send message to thread
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: message 
+          in: body
+          description: task object
+          required: true
+          schema:
+            required:
+            - text
+            properties:
+              text:
+                type: string
+      responses:
+        "200":
+          description: Success
+  
+  /instagram/search/{userName}:
+    get:
+      description: Find user with name
+      parameters:
+        - name: userName
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "List of users"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  UserSignUp:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  UserSignIn:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+          
+  UserSignInSuccess:
+    required:
+      - id
+      - email
+      - token
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      token:
+        type: string
+  UserSignInError:
+    required:
+      - error
+    properties:
+      error:
+        type: string
+  
