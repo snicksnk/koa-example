@@ -9,6 +9,7 @@ const User = new mongoose.Schema({
   username: { type: String, /*required: true*/ unique: true },
   displayName: { type: String },
   googleId: { type: String },
+  vkId: { type: String },
   password: { type: String }
 });
 

@@ -81,6 +81,12 @@ paths:
       responses: 
         "200":
           description: Ok
+  /auth/vk:
+    get: 
+      description: Vk auth init
+      responses: 
+        "200":
+          description: Ok
   /instagram/profile:
     get:
       description: Get inbox messages
@@ -195,7 +201,6 @@ definitions:
   UserSignIn:
     required:
       - username
-      - password
     properties:
       username:
         type: string

@@ -23,5 +23,19 @@ export default [
     handlers: [
       auth.googleAuthCallback,
     ]
+  },
+  {
+    method: 'GET',
+    route: '/vk',
+    handlers: [
+      auth.vkAuth
+    ]
+  },
+  {
+    method: 'GET',
+    route: '/vk/callback',
+    handlers: [
+      auth.vkAuthCallback,
+    ]
   }
 ];
