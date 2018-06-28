@@ -9,5 +9,19 @@ export default [
     handlers: [
       auth.authUser
     ]
+  },
+  {
+    method: 'GET',
+    route: '/google',
+    handlers: [
+      auth.googleAuth
+    ]
+  },
+  {
+    method: 'GET',
+    route: '/google/callback',
+    handlers: [
+      auth.googleAuthCallback,
+    ]
   }
 ];

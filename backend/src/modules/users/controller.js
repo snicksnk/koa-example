@@ -1,12 +1,10 @@
 import User from '../../models/users';
 
 export async function createUser(ctx) {
-  console.log('userData---', ctx.request.body, User);
-
   const userData = ctx.request.body;
   const alredyExistentUser = await User.find({ username: userData.username });
   // TODO Add validation
-  console.log('-----------5555');
+
   if (alredyExistentUser.length > 0) {
     ctx.body = { username: ['Alredy exists'] };
     ctx.status = 400;
@@ -22,7 +20,7 @@ export async function createUser(ctx) {
         token
       };
     } catch (err) {
-      ctx.body = { _errors: err.message };
+      ctx.body = { _errors: [err.message] };
       ctx.status = 400;
     }
   }

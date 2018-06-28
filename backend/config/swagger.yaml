@@ -75,6 +75,12 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /auth/google:
+    get: 
+      description: Google auth init
+      responses: 
+        "200":
+          description: Ok
   /instagram/profile:
     get:
       description: Get inbox messages
@@ -180,9 +186,7 @@ definitions:
       message:
         type: string
   UserSignUp:
-    required:
-      - username
-      - password
+
     properties:
       username:
         type: string

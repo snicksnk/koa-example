@@ -1,36 +1,36 @@
 import glob from 'glob';
 import Router from 'koa-router';
+import config from '../../config';
+
+const { modules } = config;
 
 module.exports = function initModules(app) {
-  /* eslint import/no-dynamic-require: 0 */
-  glob(`${__dirname}/*`, { ignore: '**/index.js' }, (err, matches) => {
-    if (err) { throw err; }
+  const modulesDirs = modules.map(name => `${__dirname}/${name}`);
 
-    matches.forEach((mod) => {
-      const router = require(`${mod}/router`);
+  modulesDirs.forEach((mod) => {
+    const router = require(`${mod}/router`);
 
-      const routes = router.default;
-      const baseUrl = router.baseUrl;
-      const instance = new Router({ prefix: baseUrl });
+    const routes = router.default;
+    const baseUrl = router.baseUrl;
+    const instance = new Router({ prefix: baseUrl });
 
-      routes.forEach((config) => {
-        const {
-          method = '',
-          route = '',
-          handlers = []
-        } = config;
+    routes.forEach((config) => {
+      const {
+        method = '',
+        route = '',
+        handlers = []
+      } = config;
 
-        const lastHandler = handlers.pop();
+      const lastHandler = handlers.pop();
 
-        instance[method.toLowerCase()](route, ...handlers, async (ctx) => {
-          const result = await lastHandler(ctx);
-          return result;
-        });
-
-        app
-          .use(instance.routes())
-          .use(instance.allowedMethods());
+      instance[method.toLowerCase()](route, ...handlers, async (ctx) => {
+        const result = await lastHandler(ctx);
+        return result;
       });
+
+      app
+        .use(instance.routes())
+        .use(instance.allowedMethods());
     });
   });
 };

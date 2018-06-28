@@ -1,13 +1,15 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import config from '../../config';
 
 const User = new mongoose.Schema({
   type: { type: String, default: 'User' },
   name: { type: String },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  username: { type: String, /*required: true*/ unique: true },
+  displayName: { type: String },
+  googleId: { type: String },
+  password: { type: String }
 });
 
 User.pre('save', function preSave(next) {
@@ -57,4 +59,4 @@ User.methods.generateToken = function generateToken() {
   return jwt.sign({ id: user.id }, config.token);
 };
 
-export default mongoose.model('user', User);
+export default mongoose.model('user', User, 'user');
