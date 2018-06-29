@@ -6,7 +6,7 @@ import config from '../../config';
 const User = new mongoose.Schema({
   type: { type: String, default: 'User' },
   name: { type: String },
-  username: { type: String, /*required: true*/ unique: true },
+  username: { type: String, required: true, unique: true },
   displayName: { type: String },
   googleId: { type: String },
   vkId: { type: String },
@@ -36,7 +36,6 @@ User.pre('save', function preSave(next) {
     });
   })
   .catch(err => {
-    console.log('errr', err);
     return next(err);
   });
 });
@@ -56,7 +55,6 @@ User.methods.validatePassword = function validatePassword(password) {
 
 User.methods.generateToken = function generateToken() {
   const user = this;
-
   return jwt.sign({ id: user.id }, config.token);
 };
 

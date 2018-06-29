@@ -15,12 +15,26 @@ const options = {
   },
 };
 
+const host = process.env.HOST || 'http://localhost';
+const port = process.env.PORT || 5000;
+
 export default {
+  port,
+  host,
   session: 'secret-boilerplate-token',
   token: 'secret-jwt-token',
   database: {
     link: `mongodb://${DB.HOST}/${DB.DATABASENAME}`,
     options
   },
-  port: 5000
+  vk: {
+    clientID: '6618337',
+    clientSecret: 'xf3YFV1Z2mWYRu5Pnvbc',
+    callbackURL: `${host}:${port}/api/v1/auth/vk/callback`
+  },
+  google: {
+    clientID: '891679427800-ovo1s76okn9j11bbtbss13asfmumu1r7.apps.googleusercontent.com',
+    clientSecret: 'EmUSYJ-5YSJktou0AEGkeyfk',
+    callbackURL: `${host}:${port}/api/v1/auth/google/callback`
+  }
 };

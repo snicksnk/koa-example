@@ -6,6 +6,8 @@ export async function authUser(ctx, next) {
       ctx.throw(401);
     }
 
+    console.log('controller--', user);
+
     const token = user.generateToken();
 
     const response = user.toJSON();
@@ -26,8 +28,6 @@ export async function googleAuth(ctx, next) {
 
 export async function googleAuthCallback(ctx, next) {
   return passport.authenticate('google', async user => {
-    console.log('google', user);
-
     const token = user.generateToken();
     const response = user.toJSON();
     delete response.password;

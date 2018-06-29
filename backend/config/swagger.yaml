@@ -87,100 +87,70 @@ paths:
       responses: 
         "200":
           description: Ok
-  /instagram/profile:
+  /feeds:
     get:
-      description: Get inbox messages
+      description: Get feeds
       responses:
         "200":
-          description: "List of dialogs"
-  /instagram/inbox:
-    get:
-      description: Get inbox messages
-      responses:
-        "200":
-          description: "List of dialogs"
-  /instagram/inbox/{threadId}:
-    get:
-      description: Get specific dialog
-      parameters:
-        - name: threadId
-          in: path
-          required: true
-          type: string
-      responses:
-        "200":
-          description: List of messages
+          description: Ok
     post:
-      description: Send message to thread
+      description: Crete feed
+      security:
+        - UserSecurity: []
       parameters:
-        - name: threadId
-          in: path
-          required: true
-          type: string
-        - name: message 
+        - name: feed 
           in: body
           description: task object
           required: true
           schema:
-            required:
-            - text
-            properties:
-              text:
-                type: string
+            $ref: '#/definitions/Feed'
       responses:
         "200":
           description: Success
-  /instagram/inbox/user/{userId}/image:
-    post:
-      description: Send message to thread
-      consumes:
-        - multipart/form-data
+          
+  /feeds/{id}:
+    get:
+      description: Get feeds
       parameters:
-        - name: userId
+        - name: id
           in: path
           required: true
           type: string
-        - name: image
-          in: formData
-          type: file
-          description: The file to upload.
-
       responses:
         "200":
-          description: Success
-  /instagram/inbox/user/{userId}:
-    post:
-      description: Send message to thread
+          description: Ok
+    put:
+      description: Update feed
+      security:
+        - UserSecurity: []
       parameters:
-        - name: userId
+        - name: id
           in: path
           required: true
           type: string
-        - name: message 
+        - name: feed 
           in: body
           description: task object
           required: true
           schema:
-            required:
-            - text
-            properties:
-              text:
-                type: string
+            $ref: '#/definitions/Feed'
       responses:
         "200":
           description: Success
-  
-  /instagram/search/{userName}:
-    get:
-      description: Find user with name
+    delete:
+      description: Update feed
+      security:
+        - UserSecurity: []
       parameters:
-        - name: userName
+        - name: id
           in: path
           required: true
           type: string
       responses:
         "200":
-          description: "List of users"
+          description: Success
+        
+ 
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -191,8 +161,13 @@ definitions:
     properties:
       message:
         type: string
+  Feed:
+    properties:
+      title:
+        type: string
+      content:
+        type: string
   UserSignUp:
-
     properties:
       username:
         type: string
@@ -206,7 +181,6 @@ definitions:
         type: string
       password:
         type: string
-          
   UserSignInSuccess:
     required:
       - id

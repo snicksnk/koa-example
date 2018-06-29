@@ -6,15 +6,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "./node_modules/.bin/nodemon index.js",
-    "test": "NODE_ENV=test jest --detectOpenHandles --forceExit",
+    "test": "NODE_ENV=test jest --forceExit",
     "test:watch": "NODE_ENV=test jest --detectOpenHandles --forceExit --watch",
-    "test22": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill",
-    "test22:watch": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-register --require babel-polyfill  --watch --recursive",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testMatch": ["**/?(*.)+(spec|test).js?(x)"]
   },
   "license": "MIT",
   "dependencies": {
@@ -54,6 +53,7 @@
     "passport-vkontakte": "^0.3.2",
     "pg": "^7.2.0",
     "prop-types": "^15.6.0",
+    "recaptcha-validator": "^2.0.0",
     "sequelize": "^4.8.0",
     "should": "^11.2.1",
     "validator": "^7.0.0",

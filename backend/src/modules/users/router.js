@@ -1,4 +1,4 @@
-import { ensureUser } from '../../middleware/validators';
+import { ensureUser, ensureRecaptcha } from '../../middleware/validators';
 import * as user from './controller';
 
 export const baseUrl = '/api/v1/users';
@@ -8,6 +8,7 @@ export default [
     method: 'POST',
     route: '/',
     handlers: [
+      ensureRecaptcha,
       user.createUser
     ]
   },
