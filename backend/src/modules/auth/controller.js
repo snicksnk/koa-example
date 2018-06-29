@@ -6,12 +6,8 @@ export async function authUser(ctx, next) {
       ctx.throw(401);
     }
 
-    console.log('controller--', user);
-
     const token = user.generateToken();
-
     const response = user.toJSON();
-
     delete response.password;
 
     ctx.body = {

@@ -13,7 +13,7 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testMatch": ["**/?(*.)+(spec|test).js?(x)"]
+    "testMatch": ["**/?(*.)+(spec).js?(x)"]
   },
   "license": "MIT",
   "dependencies": {

@@ -1,6 +1,5 @@
 import { verify } from 'jsonwebtoken';
 import recaptcha from 'recaptcha-validator';
-
 import User from '../models/users';
 import config from '../../config';
 import { getToken } from '../utils/auth';
@@ -28,8 +27,6 @@ export async function ensureUser(ctx, next) {
 }
 
 const {
-  NODE_ENV,
-  RECAPTCHA_SYSTEM_ONLINE,
   RECAPTCHA_SITESECRET,
 } = {
   RECAPTCHA_SITESECRET: '6LecGmEUAAAAADXvFDUrR5OEVOgpJs7Nin9MxhO1',
@@ -46,7 +43,7 @@ export async function ensureRecaptcha(ctx, next) {
 
   try {
     await recaptcha(
-      RECAPTCHA_SITESECRET,
+      config.recaptcha.siteSecret,
       gRecaptchaResponse,
       ctx.request.ip
     )
@@ -54,7 +51,7 @@ export async function ensureRecaptcha(ctx, next) {
     if (typeof err === 'string') {
       console.warn(`Got invalid captcha: ${err}`);
       ctx.body = {
-        _err: {
+        _errors: {
           captcha: 'Captcha is not passed'
         }
       }

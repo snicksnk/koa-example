@@ -15,8 +15,6 @@ export async function create(ctx) {
     return;
   }
 
-  console.log('controllers-err', err);
-
   const entityFields = {
     ...params,
     creator: user._id

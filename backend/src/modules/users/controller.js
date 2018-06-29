@@ -1,7 +1,7 @@
 import User from '../../models/users';
 
 export async function createUser(ctx) {
-  const userData = ctx.request.body;
+  const userData = ctx.request.smartParams;
   const alredyExistentUser = await User.find({ username: userData.username });
   // TODO Add validation
 

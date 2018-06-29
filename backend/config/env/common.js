@@ -3,5 +3,8 @@ export default {
     'users',
     'auth',
     'feeds'
-  ]
+  ],
+  recaptcha: {
+    siteSecret: '6LecGmEUAAAAADXvFDUrR5OEVOgpJs7Nin9MxhO1'
+  }
 };
