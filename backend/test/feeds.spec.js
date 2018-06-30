@@ -17,6 +17,7 @@ const fixtures = {
     title: '', content: ''
   },
   unexistentFeedId: '12345678901234f69e3105b6',
+  wrongFeedId: '123',
   editedFeed: { title: 'Great history2', content: 'New text here' }
 };
 
@@ -51,8 +52,8 @@ describe('Users', () => {
         .send(fixtures.emptyFeed);
 
       expect(response.status).toBe(400);
-      expect(response.body._errors.title[0]).toBe('Title should be not empty');
-      expect(response.body._errors.content[0]).toBe('Content should be not empty');
+      expect(response.body.errors.title[0]).toBe('Title should be not empty');
+      expect(response.body.errors.content[0]).toBe('Content should be not empty');
     });
 
     it('Create feed', async () => {
@@ -109,6 +110,14 @@ describe('Users', () => {
 
     });
 
+    it('Get feed with wrong id', async () => {
+      const response = await request
+        .get(`${urlPrefix}/${fixtures.wrongFeedId}`);
+
+      expect(response.status).toBe(404);
+
+    });
+
     it('Get feed', async () => {
       const { token, user } = await authUser({ user: fixtures.user, request });
       const feed = new Feed({ 
@@ -144,8 +153,8 @@ describe('Users', () => {
         .send(fixtures.emptyFeed);
 
       expect(response.status).toBe(400);
-      expect(response.body._errors.title[0]).toBe('Title should be not empty');
-      expect(response.body._errors.content[0]).toBe('Content should be not empty');
+      expect(response.body.errors.title[0]).toBe('Title should be not empty');
+      expect(response.body.errors.content[0]).toBe('Content should be not empty');
     });
 
     it('Update feed', async () => {
@@ -185,7 +194,7 @@ describe('Users', () => {
         .set('x-access-token', token);
 
       expect(response.status).toBe(200);
-      expect(response.body.success).toBe(true);
+      expect(response.body._id).toBe(id.toHexString());
       expect(await Feed.findById(feed.id)).toBe(null);
     });
 

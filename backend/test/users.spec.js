@@ -7,8 +7,8 @@ const context = {};
 
 const fixtures = {
   user: {
-    username: 'login', password: 'pass'
-  }
+    username: 'login', password: 'password'
+  },
 };
 
 beforeAll(() => {
@@ -31,7 +31,8 @@ describe('Users', function() {
         .send({ username: '', password: '' });
 
       expect(response.status).toBe(400);
-      expect(response.body._errors[0]).toBe('user validation failed');
+      expect(response.body.errors.username[0]).toBe('Username should be not empty');
+      expect(response.body.errors.password[0]).toBe('Password should be not empty');
     });
 
 
@@ -51,7 +52,7 @@ describe('Users', function() {
         .send(fixtures.user);
 
       expect(response.status).toBe(400);
-      expect(response.body.username[0]).toBe('Alredy exists');
+      expect(response.body.errors.username[0]).toBe('Alredy exists');
     });
   });
 
