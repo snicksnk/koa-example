@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "./node_modules/.bin/nodemon index.js",
-    "test": "NODE_ENV=test jest --forceExit",
+    "test": "NODE_ENV=test jest --forceExit --detectOpenHandles",
     "test:watch": "NODE_ENV=test jest --detectOpenHandles --forceExit --watch",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "docs": "./node_modules/.bin/apidoc -i src/ -o docs"
