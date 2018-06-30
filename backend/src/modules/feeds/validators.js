@@ -1,5 +1,5 @@
 export function feed(params) {
-  let err = {};
+  const err = {};
   if (!params.title) {
     err.title = ['Title should be not empty'];
   }
@@ -13,7 +13,7 @@ export function feed(params) {
   } else {
     return null;
   }
-};
+}
 
 export function id(id) {
   return /^[0-9a-fA-F]{24}$/.test(id) ? null : { _id: 'Incorrect id' };

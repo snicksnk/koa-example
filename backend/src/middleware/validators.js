@@ -26,12 +26,6 @@ export async function ensureUser(ctx, next) {
   return next();
 }
 
-const {
-  RECAPTCHA_SITESECRET,
-} = {
-  RECAPTCHA_SITESECRET: '6LecGmEUAAAAADXvFDUrR5OEVOgpJs7Nin9MxhO1',
-}
-
 export async function ensureRecaptcha(ctx, next) {
   if (process.env.NODE_ENV === 'test' && !ctx.request.body['g-recaptcha-response']) {
     console.log('Development mode, so skipping recaptcha check');
@@ -46,7 +40,7 @@ export async function ensureRecaptcha(ctx, next) {
       config.recaptcha.siteSecret,
       gRecaptchaResponse,
       ctx.request.ip
-    )
+    );
   } catch (err) {
     if (typeof err === 'string') {
       console.warn(`Got invalid captcha: ${err}`);
@@ -54,7 +48,7 @@ export async function ensureRecaptcha(ctx, next) {
         _errors: {
           captcha: 'Captcha is not passed'
         }
-      }
+      };
       return;
     }
     ctx.throw(403);

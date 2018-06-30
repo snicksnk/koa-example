@@ -19,7 +19,7 @@ export async function createUser(ctx) {
   if (alredyExistentUser.length > 0) {
     ctx.body = {
       errors: {
-        username: ['Alredy exists'] 
+        username: ['Alredy exists']
       }
     };
     ctx.status = 400;

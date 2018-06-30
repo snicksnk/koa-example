@@ -1,4 +1,4 @@
-import { ensureUser, ensureRecaptcha } from '../../middleware/validators';
+import { ensureRecaptcha } from '../../middleware/validators';
 import { prepareParams, extract } from '../../middleware/smartRequest';
 import * as user from './controller';
 

@@ -38,11 +38,11 @@ export default function config(config) {
   }));
 
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done) => {
     done(null, user);
   });
 
-  passport.deserializeUser(function(user, done) {
+  passport.deserializeUser((user, done) => {
     done(null, user);
   });
 
@@ -62,8 +62,6 @@ export default function config(config) {
     } else {
       return done(null, existentUsers[0]);
     }
-
-    done();
   }));
 
   passport.use(new GoogleStrategy({

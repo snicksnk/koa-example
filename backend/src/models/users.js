@@ -35,9 +35,7 @@ User.pre('save', function preSave(next) {
       next(null);
     });
   })
-  .catch(err => {
-    return next(err);
-  });
+  .catch(err => next(err));
 });
 
 User.methods.validatePassword = function validatePassword(password) {

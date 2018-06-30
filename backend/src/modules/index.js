@@ -1,4 +1,3 @@
-import glob from 'glob';
 import Router from 'koa-router';
 import config from '../../config';
 
@@ -8,7 +7,7 @@ module.exports = function initModules(app) {
   const modulesDirs = modules.map(name => `${__dirname}/${name}`);
 
   modulesDirs.forEach((mod) => {
-    const router = require(`${mod}/router`);
+    const router = require(`${mod}/router`);  // eslint-disable-line import/no-dynamic-require
 
     const routes = router.default;
     const baseUrl = router.baseUrl;

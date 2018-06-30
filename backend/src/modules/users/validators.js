@@ -1,5 +1,5 @@
 export function user(params) {
-  let err = {};
+  const err = {};
   if (!params.username) {
     err.username = ['Username should be not empty'];
   }
@@ -17,4 +17,4 @@ export function user(params) {
   } else {
     return null;
   }
-};
+}
