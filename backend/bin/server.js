@@ -18,7 +18,9 @@ const app = new Koa();
 app.keys = [config.session];
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.database.link, config.database.options);
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(config.database.link, config.database.options);
+}
 
 app.use(cors());
 

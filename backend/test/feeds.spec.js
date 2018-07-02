@@ -1,6 +1,6 @@
 import app from '../bin/server';
 import supertest from 'supertest';
-import { cleanDb, closeConnection, authUser } from './utils';
+import { cleanDb, authUser } from './utils';
 import User from '../src/models/users';
 import Feed from '../src/models/feeds';
 
@@ -16,21 +16,26 @@ const fixtures = {
   emptyFeed: {
     title: '', content: ''
   },
+  token: null,
   unexistentFeedId: '12345678901234f69e3105b6',
   wrongFeedId: '123',
   editedFeed: { title: 'Great history2', content: 'New text here' }
 };
+
+const userData = {
+  user: null,
+  token: null
+}
 
 beforeAll(async () => {
   // runs before all tests in this block
   cleanDb();
   const user = new User(fixtures.user);
   await user.save();
-});
 
-afterAll(async () => {
-  await closeConnection();
-}, 5000);
+  userData.user = user;
+  userData.token = user.generateToken();
+});
 
 const urlPrefix = '/api/v1/feeds';
 describe('Users', () => {
@@ -45,7 +50,7 @@ describe('Users', () => {
     });
 
     it('Create feed with wrong params', async () => {
-      const { token } = await authUser({ user: fixtures.user, request });
+      const { token } = userData;
       const response = await request
         .post(urlPrefix)
         .set('x-access-token', token)
@@ -57,7 +62,7 @@ describe('Users', () => {
     });
 
     it('Create feed', async () => {
-      const { token } = await authUser({ user: fixtures.user, request });
+      const { token } = userData;
       const response = await request
         .post(urlPrefix)
         .set('x-access-token', token)
@@ -77,7 +82,9 @@ describe('Users', () => {
   describe(`GET ${urlPrefix} - create feed`, () => {
 
     it('Get feeds', async () => {
-      const { token, user } = await authUser({ user: fixtures.user, request });
+
+      const { user } = userData;
+      
       const feed = new Feed({ 
         ...fixtures.feed,
         creator: user._id
@@ -119,7 +126,7 @@ describe('Users', () => {
     });
 
     it('Get feed', async () => {
-      const { token, user } = await authUser({ user: fixtures.user, request });
+      const { token, user } = userData;
       const feed = new Feed({ 
         ...fixtures.feed,
         creator: user._id
@@ -140,7 +147,7 @@ describe('Users', () => {
   describe(`PUT ${urlPrefix} - create feed`, () => {
 
     it('Update feed with wrong params', async () => {
-      const { token, user } = await authUser({ user: fixtures.user, request });
+      const { token, user } = userData;
       const feed = new Feed({ 
         ...fixtures.feed,
         creator: user._id
@@ -158,12 +165,13 @@ describe('Users', () => {
     });
 
     it('Update feed', async () => {
-      const { token, user } = await authUser({ user: fixtures.user, request });
+      const { token, user } = userData;
       const feed = new Feed({ 
         ...fixtures.feed,
         creator: user._id
       });
       await feed.save();
+
       const { _id: id } = feed;
       const response = await request
         .put(`${urlPrefix}/${id}`)
@@ -181,7 +189,7 @@ describe('Users', () => {
   describe(`DELETE ${urlPrefix} - delete feed`, () => {
 
     it('Update feed', async () => {
-      const { token, user } = await authUser({ user: fixtures.user, request });
+      const { token, user } = userData;
       const feed = new Feed({ 
         ...fixtures.feed,
         creator: user._id

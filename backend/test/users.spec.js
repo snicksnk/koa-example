@@ -1,6 +1,6 @@
 import app from '../bin/server';
 import supertest from 'supertest';
-import { cleanDb, closeConnection } from './utils';
+import { cleanDb } from './utils';
 
 const request = supertest.agent(app.callback());
 const context = {};
@@ -15,11 +15,6 @@ beforeAll(() => {
   // runs before all tests in this block
   cleanDb();
 });
-
-afterAll(async () => {
-  await closeConnection();
-}, 5000);
-
 
 const urlPrefix = '/api/v1/users';
 describe('Users', function() {

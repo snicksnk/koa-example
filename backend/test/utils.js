@@ -8,8 +8,12 @@ export function cleanDb() {
   }
 }
 
-export function closeConnection() {
-  return Promise.all([mongoose.disconnect(), mongoose.connection.close()]);
+export function dropCollections() {
+  mongoose.connection.db.dropDatabase(() => 'db drop');
+}
+
+export function closeConnection(connection) {
+  return Promise.all([connection.disconnect(), mongoose.connection.close()]);
 }
 
 export async function authUser({ url = '/api/v1/auth', user, request }) {
