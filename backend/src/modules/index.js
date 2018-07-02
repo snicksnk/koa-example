@@ -3,7 +3,7 @@ import config from '../../config';
 
 const { modules } = config;
 
-module.exports = function initModules(app) {
+export default function initModules(app) {
   const modulesDirs = modules.map(name => `${__dirname}/${name}`);
 
   modulesDirs.forEach((mod) => {
