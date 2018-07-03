@@ -8,10 +8,6 @@ export function cleanDb() {
   }
 }
 
-export function dropCollections() {
-  mongoose.connection.db.dropDatabase(() => 'db drop');
-}
-
 export function closeConnection(connection) {
   return Promise.all([connection.disconnect(), mongoose.connection.close()]);
 }

@@ -28,12 +28,10 @@ export async function ensureUser(ctx, next) {
 
 export async function ensureRecaptcha(ctx, next) {
   if (process.env.NODE_ENV === 'test' && !ctx.request.body['g-recaptcha-response']) {
-    console.log('Development mode, so skipping recaptcha check');
     return next();
   }
 
   const gRecaptchaResponse = ctx.request.body['g-recaptcha-response'];
-  console.log('gRecaptchaResponse', gRecaptchaResponse);
 
   try {
     await recaptcha(
@@ -53,8 +51,5 @@ export async function ensureRecaptcha(ctx, next) {
     }
     ctx.throw(403);
   }
-
-  console.log('thrwooo');
-
   return next();
 }

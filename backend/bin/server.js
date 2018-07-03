@@ -3,8 +3,6 @@ import bodyParser from 'koa-bodyparser';
 import convert from 'koa-convert';
 import logger from 'koa-logger';
 import mongoose from 'mongoose';
-// import session from 'koa-generic-session';
-// import passport from 'koa-passport';
 import mount from 'koa-mount';
 import serve from 'koa-static';
 import cors from 'koa-cors';
@@ -16,11 +14,11 @@ import modules from '../src/modules';
 console.log('🐝 Starting', config);
 
 const app = new Koa();
-app.keys = [config.session];
 
 mongoose.Promise = global.Promise;
+
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(config.database.link, config.database.options);
+  mongoose.connect(`mongodb://${config.database.host}/${config.database.databaseName}`, config.database.options);
 }
 
 app.use(cors());

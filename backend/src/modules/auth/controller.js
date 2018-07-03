@@ -42,8 +42,6 @@ export async function vkAuth(ctx, next) {
 
 export async function vkAuthCallback(ctx, next) {
   return passport.authenticate('vkontakte', async user => {
-    console.log('vk', user);
-
     const token = user.generateToken();
     const response = user.toJSON();
     delete response.password;
